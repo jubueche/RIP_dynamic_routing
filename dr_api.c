@@ -188,6 +188,7 @@ void dr_init(unsigned (*func_dr_interface_count)(),
       new_entry->outgoing_intf = 0;
       new_entry->cost = tmp.cost;
       new_entry->last_updated = get_struct_timeval();
+      new_entry->is_garbage = 0;
       new_entry->next = NULL;
 
       if(i==0){
@@ -227,6 +228,17 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
 
 void safe_dr_handle_periodic() {
     /* handle periodic tasks for dynamic routing here */
+    long current_time;
+    route_t *current = head_rt;
+    while(current != NULL){
+      current_time = get_time();
+      long time_entry = current->last_updated.tv_sec * 1000 + current->last_updated.tv_usec / 1000;
+      if((current_time - time_entry)/1000.f > RIP_GARBAGE_SEC && current->is_garbage != 1){ //Convert difference to seconds
+        current->is_garbage = 1;
+        fprintf(stderr, "%s\n", "PT entry -> garbage");
+      }
+      current = current->next;
+    }
 
 }
 
