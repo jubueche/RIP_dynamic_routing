@@ -92,6 +92,8 @@ long get_time();
 void print_ip(int ip);
 void print_routing_table(route_t *head);
 /* internal lock-safe methods for the students to implement */
+struct timeval get_struct_timeval();
+void append(route_t *head, route_t *new_entry);
 static next_hop_t safe_dr_get_next_hop(uint32_t ip);
 static void safe_dr_handle_packet(uint32_t ip, unsigned intf,
                                   char* buf /* borrowed */, unsigned len);
@@ -143,6 +145,8 @@ void dr_interface_changed(unsigned intf, int state_changed, int cost_changed) {
 
 /* ****** It is recommended that you only modify code below this line! ****** */
 
+/*Added variables*/
+route_t *head_rt = NULL; //Head of the routing table
 
 void dr_init(unsigned (*func_dr_interface_count)(),
              lvns_interface_t (*func_dr_get_interface)(unsigned index),
@@ -172,6 +176,37 @@ void dr_init(unsigned (*func_dr_interface_count)(),
     }
 
     /* do initialization of your own data structures here */
+    head_rt = (route_t *) malloc(sizeof(route_t));
+    lvns_interface_t tmp;
+
+    for(uint32_t i=0;i<dr_interface_count();i++){
+      tmp = dr_get_interface(i);
+      route_t *new_entry = (route_t *) malloc(sizeof(route_t)); //DEBUG:Add catch of false malloc
+      new_entry->subnet = ntohl(tmp.subnet_mask & tmp.ip);
+      new_entry->mask = ntohl(tmp.subnet_mask);
+      new_entry->next_hop_ip = 0; //NOTE: Not needed for initial, direct connections
+      new_entry->outgoing_intf = 0;
+      new_entry->cost = tmp.cost;
+      new_entry->last_updated = get_struct_timeval();
+      new_entry->next = NULL;
+
+      if(i==0){
+        head_rt = new_entry;
+      } else{
+        append(head_rt, new_entry);
+      }
+    }
+    print_routing_table(head_rt);
+}
+
+void append(route_t *head, route_t *new_entry){
+  route_t *current = head;
+
+  while (current->next != NULL) {
+      current = current->next;
+  }
+  current->next = (route_t *) malloc(sizeof(route_t)); //DEBUG:Add catch of false malloc
+  current->next = new_entry;
 }
 
 next_hop_t safe_dr_get_next_hop(uint32_t ip) {
@@ -192,6 +227,7 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
 
 void safe_dr_handle_periodic() {
     /* handle periodic tasks for dynamic routing here */
+
 }
 
 static void safe_dr_interface_changed(unsigned intf,
@@ -210,17 +246,23 @@ long get_time(){
     return now.tv_sec * 1000 + now.tv_usec / 1000;
 }
 
+struct timeval get_struct_timeval(){
+  struct timeval now;
+  gettimeofday(&now, NULL);
+  return now;
+}
+
 // prints an ip address in the correct format
-// this function is taken from: 
-// https://stackoverflow.com/questions/1680365/integer-to-ip-address-c 
+// this function is taken from:
+// https://stackoverflow.com/questions/1680365/integer-to-ip-address-c
 void print_ip(int ip)
 {
     unsigned char bytes[4];
     bytes[0] = ip & 0xFF;
     bytes[1] = (ip >> 8) & 0xFF;
     bytes[2] = (ip >> 16) & 0xFF;
-    bytes[3] = (ip >> 24) & 0xFF;   
-    printf("%d.%d.%d.%d\n", bytes[3], bytes[2], bytes[1], bytes[0]);        
+    bytes[3] = (ip >> 24) & 0xFF;
+    printf("%d.%d.%d.%d\n", bytes[3], bytes[2], bytes[1], bytes[0]);
 }
 
 // prints the full routing table
