@@ -1,0 +1,32 @@
+******** Starting new dr instance ********
+connected to the LVNS server
+151.96.67.171
+6.0.168.192
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 171.67.96.0
+	Mask: 255.255.255.0
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 889963 
+==============================
+Entry 1:
+	Subnet: 192.168.0.0
+	Mask: 255.255.255.0
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 13
+	Last updated (timestamp in microseconds): 889964 
+==============================
+0.96.67.171
+0.0.0.0
+0.0.168.192
+0.0.0.0
+0.96.67.171
+0.0.0.0
+0.0.168.192
+0.0.0.0
+connection closed by server

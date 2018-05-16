@@ -25,6 +25,8 @@
 #define RIP_TIMEOUT_SEC 20
 #define RIP_GARBAGE_SEC 20
 
+#define IPV4_ADDR_FAM 1 //NOTE: Not sure if needed
+
 /** information about a route which is sent with a RIP packet */
 typedef struct rip_entry_t {
     uint16_t addr_family;
@@ -94,6 +96,7 @@ void print_routing_table(route_t *head);
 /* internal lock-safe methods for the students to implement */
 struct timeval get_struct_timeval();
 void append(route_t *head, route_t *new_entry);
+uint32_t count_route_table_entries();
 static next_hop_t safe_dr_get_next_hop(uint32_t ip);
 static void safe_dr_handle_packet(uint32_t ip, unsigned intf,
                                   char* buf /* borrowed */, unsigned len);
@@ -181,11 +184,12 @@ void dr_init(unsigned (*func_dr_interface_count)(),
 
     for(uint32_t i=0;i<dr_interface_count();i++){
       tmp = dr_get_interface(i);
+      print_ip(tmp.ip);
       route_t *new_entry = (route_t *) malloc(sizeof(route_t)); //DEBUG:Add catch of false malloc
-      new_entry->subnet = ntohl(tmp.subnet_mask & tmp.ip);
+      new_entry->subnet = ntohl(tmp.subnet_mask & tmp.ip); //Destination
       new_entry->mask = ntohl(tmp.subnet_mask);
       new_entry->next_hop_ip = 0; //NOTE: Not needed for initial, direct connections
-      new_entry->outgoing_intf = 0;
+      new_entry->outgoing_intf = i;
       new_entry->cost = tmp.cost;
       new_entry->last_updated = get_struct_timeval();
       new_entry->is_garbage = 0;
@@ -200,16 +204,6 @@ void dr_init(unsigned (*func_dr_interface_count)(),
     print_routing_table(head_rt);
 }
 
-void append(route_t *head, route_t *new_entry){
-  route_t *current = head;
-
-  while (current->next != NULL) {
-      current = current->next;
-  }
-  current->next = (route_t *) malloc(sizeof(route_t)); //DEBUG:Add catch of false malloc
-  current->next = new_entry;
-}
-
 next_hop_t safe_dr_get_next_hop(uint32_t ip) {
     next_hop_t hop;
 
@@ -217,19 +211,41 @@ next_hop_t safe_dr_get_next_hop(uint32_t ip) {
     hop.dst_ip = 0;
 
     /* determine the next hop in order to get to ip */
-
+    route_t *current = head_rt;
+    while(current != NULL){
+      if((ip & current->mask) == current->subnet){
+        hop.interface = current->outgoing_intf; //DEBUG: HTONL?
+        hop.dst_ip = current->next_hop_ip; //DEBUG: HTONL?
+        return hop; //There is only one entry to a certain IP/subnet
+      }
+      current = current->next;
+    }
+    hop.dst_ip = 0xFFFFFFFF;
     return hop;
 }
 
 void safe_dr_handle_packet(uint32_t ip, unsigned intf,
                            char* buf /* borrowed */, unsigned len) {
     /* handle the dynamic routing payload in the buf buffer */
+    fprintf(stderr, "Packet arrived from IP: ");
+    print_ip(ip);
 }
 
 void safe_dr_handle_periodic() {
     /* handle periodic tasks for dynamic routing here */
+    /*Send out the complete routing table to neighbors*/
+    route_t *current;
+    for(uint32_t i=0;i<dr_interface_count();i++){
+      current = head_rt;
+      while(current != NULL){
+
+        dr_send_payload(RIP_IP, RIP_IP, current->outgoing_intf,NULL,0); //TODO: Actually send routing table entries
+        current = current->next;
+      }
+    }
+
     long current_time;
-    route_t *current = head_rt;
+    current = head_rt;
     while(current != NULL){
       current_time = get_time();
       long time_entry = current->last_updated.tv_sec * 1000 + current->last_updated.tv_usec / 1000;
@@ -256,6 +272,27 @@ long get_time(){
     struct timeval now;
     gettimeofday(&now, NULL);
     return now.tv_sec * 1000 + now.tv_usec / 1000;
+}
+
+void append(route_t *head, route_t *new_entry){
+  route_t *current = head;
+
+  while (current->next != NULL) {
+      current = current->next;
+  }
+  current->next = (route_t *) malloc(sizeof(route_t)); //DEBUG:Add catch of false malloc
+  current->next = new_entry;
+}
+
+uint32_t count_route_table_entries(){
+  uint32_t cnt = 0;
+  route_t *current = head_rt;
+
+  while (current->next != NULL) {
+    cnt++;
+    current = current->next;
+  }
+  return cnt;
 }
 
 struct timeval get_struct_timeval(){
