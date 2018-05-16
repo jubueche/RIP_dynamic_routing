@@ -1,3 +1,5 @@
+//TODO: Update timestamp to subnets that are directly connected
+
 /* Filename: dr_api.c */
 
 /* include files */
@@ -27,6 +29,7 @@
 #define RIP_GARBAGE_SEC 20
 
 #define IPV4_ADDR_FAM 1 //NOTE: Not sure if needed
+#define DEBUG 1
 
 /** information about a route which is sent with a RIP packet */
 typedef struct rip_entry_t {
@@ -187,7 +190,7 @@ void dr_init(unsigned (*func_dr_interface_count)(),
 
     for(uint32_t i=0;i<dr_interface_count();i++){
       tmp = dr_get_interface(i);
-      print_ip(tmp.ip);
+      if (DEBUG) print_ip(tmp.ip);
       route_t *new_entry = (route_t *) malloc(sizeof(route_t)); //DEBUG:Add catch of false malloc
       new_entry->subnet = ntohl(tmp.subnet_mask & tmp.ip); //Destination
       new_entry->mask = ntohl(tmp.subnet_mask);
@@ -204,7 +207,7 @@ void dr_init(unsigned (*func_dr_interface_count)(),
         append(head_rt, new_entry);
       }
     }
-    print_routing_table(head_rt);
+    if(DEBUG) print_routing_table(head_rt);
 }
 
 next_hop_t safe_dr_get_next_hop(uint32_t ip) {
@@ -232,12 +235,56 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
     /* handle the dynamic routing payload in the buf buffer */
     //uint8_t offset = 0;
     rip_entry_t *received = (rip_entry_t *) malloc(sizeof(rip_entry_t));
-    memcpy(received, buf, len);
+    rip_header_t *header = (rip_header_t *) malloc(sizeof(rip_header_t));
 
-    fprintf(stderr, "%s\n", "Rec. package: ");
-    print_packet(received);
+    memcpy(header, buf, sizeof(rip_header_t));
+    memcpy(received, buf + sizeof(rip_header_t), sizeof(rip_entry_t));
 
-    
+    //if (DEBUG) print_packet(received);
+
+    /*Received a connection (u --> v) with a cost c(u,v), where u is the router it came from
+    and v is another router or subnet.
+    First: Check in the RT, if we have an entry where subnet == u. If yes, update the timestamp
+    if not, make a new entry with the correct intfc, associated cost, and next_hop = 0.
+    Second: For the (u,v) we have received, check if (Here, u) exists (must bcs. of First).
+    If it exists, check if (Here, v) exists.
+      If NO: Add a new entry (Here, v) with next_hop
+        equal u with metric c(Here, u) + c(u,v).
+      If YES: Compare c(Here,v) >? c(Here, u) + c(u,v)
+          if we have found a better route, update the metric to c(Here, u) + c(u,v) */
+    bool present = false;
+    route_t *current = head_rt;
+    while(current != NULL){
+      uint32_t end = current->subnet;
+      if(end == ip){ //Is the endpoint of the entry the same as the IP that we are receiving this message from?
+        present = true;
+        current->last_updated = get_struct_timeval(); //Reset the timestamp
+        fprintf(stderr, "%s\n", "Found entry!");
+      }
+      current = current->next;
+    }
+    if(!present){ //This connection doesn't exist, add
+      route_t *new_entry = (route_t *) malloc(sizeof(route_t));
+      new_entry->subnet = ip;
+      new_entry->next_hop_ip = 0; //This is a direct connection
+      print_ip(ip);
+      for(uint32_t i=0;i<dr_interface_count();i++){
+        lvns_interface_t tmp = dr_get_interface(i);
+        if(((tmp.ip & tmp.subnet_mask) == ntohl(received->ip)) && tmp.enabled){ //We received drX --> drHere
+          //we have found the correct interface
+          new_entry->outgoing_intf = i;
+          new_entry->cost = tmp.cost;
+          new_entry->mask = tmp.subnet_mask;
+          new_entry->last_updated = get_struct_timeval();
+          //Append to the list
+          append(head_rt, new_entry);
+          if (DEBUG) fprintf(stderr, "%s\n", "Added a new entry to the RT.");
+          print_routing_table(head_rt);
+          break;
+        }
+      }
+
+    }
     free(received);
 }
 
@@ -253,7 +300,7 @@ void safe_dr_handle_periodic() {
       long time_entry = current->last_updated.tv_sec * 1000 + current->last_updated.tv_usec / 1000;
       if((current_time - time_entry)/1000.f > RIP_GARBAGE_SEC && current->is_garbage != 1){ //Convert difference to seconds
         current->is_garbage = 1;
-        fprintf(stderr, "%s\n", "PT entry -> garbage");
+        if(DEBUG) fprintf(stderr, "%s\n", "PT entry -> garbage");
       }
       current = current->next;
     }
@@ -292,20 +339,26 @@ void advertise_routing_table(){
     current = head_rt;
     while(current != NULL){
       rip_entry_t *packet = (rip_entry_t *) malloc(sizeof(rip_entry_t));
+      rip_header_t *header = (rip_header_t *) malloc(sizeof(rip_header_t));
       packet->addr_family = IPV4_ADDR_FAM;
       packet->pad = 0;
       packet->ip = current->subnet;
       packet->subnet_mask = current->mask;
       packet->next_hop = current->next_hop_ip;
       packet->metric = current->cost;
+      header->command = RIP_COMMAND_RESPONSE;
+      header->version = RIP_VERSION;
+      header->pad = 0;
+      //DEBUG: I don't initialize entries[0] here, since it is an empty array, why?
 
-      char buf[sizeof(*packet)];
-      memcpy(buf, packet, sizeof(*packet));
+      char buf[sizeof(*header) + sizeof(*packet)];
+      memcpy(buf, header, sizeof(*header));
+      memcpy(buf + sizeof(*header), packet, sizeof(*packet));
 
       dr_send_payload(RIP_IP, RIP_IP, current->outgoing_intf,buf,sizeof(buf));
 
-      fprintf(stderr, "%s\n", "Send package: ");
-      print_packet(packet);
+      //if(DEBUG) fprintf(stderr, "%s\n", "Send package: ");
+      //if(DEBUG) print_packet(packet);
       free(packet);
 
       current = current->next;
@@ -314,10 +367,12 @@ void advertise_routing_table(){
 }
 
 void print_packet(rip_entry_t *packet){
-  fprintf(stderr, "Packet IP: ");
+  fprintf(stderr, " Packet IP: ");
   print_ip(packet->ip);
   fprintf(stderr, " Subnet mask: ");
   print_ip(packet->subnet_mask);
+  fprintf(stderr, " Next hop: ");
+  print_ip(packet->next_hop);
 }
 
 uint32_t count_route_table_entries(){
