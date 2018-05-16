@@ -7,6 +7,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/time.h>
 
 #include "dr_api.h"
@@ -97,7 +98,9 @@ void print_routing_table(route_t *head);
 struct timeval get_struct_timeval();
 void append(route_t *head, route_t *new_entry);
 uint32_t count_route_table_entries();
+void print_packet(rip_entry_t *packet);
 static next_hop_t safe_dr_get_next_hop(uint32_t ip);
+void advertise_routing_table();
 static void safe_dr_handle_packet(uint32_t ip, unsigned intf,
                                   char* buf /* borrowed */, unsigned len);
 static void safe_dr_handle_periodic();
@@ -227,25 +230,24 @@ next_hop_t safe_dr_get_next_hop(uint32_t ip) {
 void safe_dr_handle_packet(uint32_t ip, unsigned intf,
                            char* buf /* borrowed */, unsigned len) {
     /* handle the dynamic routing payload in the buf buffer */
-    fprintf(stderr, "Packet arrived from IP: ");
-    print_ip(ip);
+    //uint8_t offset = 0;
+    rip_entry_t *received = (rip_entry_t *) malloc(sizeof(rip_entry_t));
+    memcpy(received, buf, len);
+
+    fprintf(stderr, "%s\n", "Rec. package: ");
+    print_packet(received);
+
+    
+    free(received);
 }
 
 void safe_dr_handle_periodic() {
     /* handle periodic tasks for dynamic routing here */
     /*Send out the complete routing table to neighbors*/
-    route_t *current;
-    for(uint32_t i=0;i<dr_interface_count();i++){
-      current = head_rt;
-      while(current != NULL){
-
-        dr_send_payload(RIP_IP, RIP_IP, current->outgoing_intf,NULL,0); //TODO: Actually send routing table entries
-        current = current->next;
-      }
-    }
+    advertise_routing_table();
 
     long current_time;
-    current = head_rt;
+    route_t *current = head_rt;
     while(current != NULL){
       current_time = get_time();
       long time_entry = current->last_updated.tv_sec * 1000 + current->last_updated.tv_usec / 1000;
@@ -282,6 +284,40 @@ void append(route_t *head, route_t *new_entry){
   }
   current->next = (route_t *) malloc(sizeof(route_t)); //DEBUG:Add catch of false malloc
   current->next = new_entry;
+}
+
+void advertise_routing_table(){
+  route_t *current;
+  for(uint32_t i=0;i<dr_interface_count();i++){
+    current = head_rt;
+    while(current != NULL){
+      rip_entry_t *packet = (rip_entry_t *) malloc(sizeof(rip_entry_t));
+      packet->addr_family = IPV4_ADDR_FAM;
+      packet->pad = 0;
+      packet->ip = current->subnet;
+      packet->subnet_mask = current->mask;
+      packet->next_hop = current->next_hop_ip;
+      packet->metric = current->cost;
+
+      char buf[sizeof(*packet)];
+      memcpy(buf, packet, sizeof(*packet));
+
+      dr_send_payload(RIP_IP, RIP_IP, current->outgoing_intf,buf,sizeof(buf));
+
+      fprintf(stderr, "%s\n", "Send package: ");
+      print_packet(packet);
+      free(packet);
+
+      current = current->next;
+    }
+  }
+}
+
+void print_packet(rip_entry_t *packet){
+  fprintf(stderr, "Packet IP: ");
+  print_ip(packet->ip);
+  fprintf(stderr, " Subnet mask: ");
+  print_ip(packet->subnet_mask);
 }
 
 uint32_t count_route_table_entries(){
