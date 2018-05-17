@@ -238,9 +238,8 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
     rip_entry_t *received = (rip_entry_t *) malloc(sizeof(rip_entry_t));
     rip_header_t *header = (rip_header_t *) malloc(sizeof(rip_header_t));
 
-    /*memcpy(header, buf, sizeof(rip_header_t));
-    memcpy(received, buf + sizeof(rip_header_t), sizeof(rip_entry_t));*/
-    memcpy(received, buf, sizeof(rip_entry_t));
+    memcpy(header, buf, sizeof(rip_header_t));
+    memcpy(received, buf + sizeof(rip_header_t), sizeof(rip_entry_t));
 
     if (DEBUG) print_packet(received);
 
@@ -389,18 +388,16 @@ void advertise_routing_table(){
       header->pad = 0;
       //DEBUG: I don't initialize entries[0] here, since it is an empty array, why?
 
-      char buf[sizeof(*packet)];
-      memcpy(buf, packet, sizeof(*packet));
-
-      /*char buf[sizeof(*header) + sizeof(*packet)];
+      char buf[sizeof(*header) + sizeof(*packet)];
       memcpy(buf, header, sizeof(*header));
-      memcpy(buf + sizeof(*header), packet, sizeof(*packet));*/
+      memcpy(buf + sizeof(*header), packet, sizeof(*packet));
 
       dr_send_payload(RIP_IP, RIP_IP, i,buf,sizeof(buf));
 
       //if(DEBUG) fprintf(stderr, "%s\n", "Send package: ");
       //if(DEBUG) print_packet(packet);
       free(packet);
+      free(header);
 
       current = current->next;
     }
