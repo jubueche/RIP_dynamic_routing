@@ -241,7 +241,7 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
     memcpy(header, buf, sizeof(rip_header_t));
     memcpy(received, buf + sizeof(rip_header_t), sizeof(rip_entry_t));
 
-    if (DEBUG) print_packet(received);
+    //if (DEBUG) print_packet(received);
 
     /*Received a connection (u --> v) with a cost c(u,v), where u is the router it came from
     and v is another router or subnet.
@@ -319,12 +319,23 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
       here_v_exists = true;
       fprintf(stderr, "%s\n", "Added here -> v");
       print_routing_table(head_rt);
+    } else{ /*Bellman Ford update*/
+      if(here_v->cost > here_u->cost + received->metric){
+        fprintf(stderr, "%s\n", "Updated Here -> ");
+        print_ip(here_v->subnet);
+        print_routing_table(head_rt);
+        here_v->cost = here_u->cost + received->metric;
+        here_v->outgoing_intf = u_interface_index;
+        here_v->next_hop_ip = here_u->subnet;
+        here_v->mask = here_u->mask;
+      }
     }
 
     free(header);
     free(received);
 }
 
+//TODO: For all directly connected subnets, check if the interface is enabled and reset the timer
 void safe_dr_handle_periodic() {
     /* handle periodic tasks for dynamic routing here */
     /*Send out the complete routing table to neighbors*/
