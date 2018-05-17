@@ -331,6 +331,31 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
         here_v->outgoing_intf = u_interface_index;
         here_v->next_hop_ip = here_u->subnet;
         here_v->mask = here_u->mask;
+        /*Triggered update: Send out this packet immediately*/
+        for(uint32_t i=0;i<dr_interface_count();i++){
+          rip_entry_t *packet = (rip_entry_t *) malloc(sizeof(rip_entry_t));
+          rip_header_t *header = (rip_header_t *) malloc(sizeof(rip_header_t));
+          packet->addr_family = IPV4_ADDR_FAM;
+          packet->pad = 0;
+          packet->ip = here_v->subnet;
+          packet->subnet_mask = here_v->mask;
+          packet->next_hop = here_v->next_hop_ip;
+          packet->metric = here_v->cost;
+          header->command = RIP_COMMAND_RESPONSE;
+          header->version = RIP_VERSION;
+          header->pad = 0;
+
+          char buf[sizeof(*header) + sizeof(*packet)];
+          memcpy(buf, header, sizeof(*header));
+          memcpy(buf + sizeof(*header), packet, sizeof(*packet));
+
+          dr_send_payload(RIP_IP, RIP_IP, i,buf,sizeof(buf));
+
+          //if(DEBUG) fprintf(stderr, "%s\n", "Send package: ");
+          //if(DEBUG) print_packet(packet);
+          free(packet);
+          free(header);
+        }
       }
     }
     free(header);
