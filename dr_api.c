@@ -190,10 +190,10 @@ void dr_init(unsigned (*func_dr_interface_count)(),
 
     for(uint32_t i=0;i<dr_interface_count();i++){
       tmp = dr_get_interface(i);
-      if (DEBUG) print_ip(tmp.ip);
+      //if (DEBUG) print_ip(tmp.ip);
       route_t *new_entry = (route_t *) malloc(sizeof(route_t)); //DEBUG:Add catch of false malloc
-      new_entry->subnet = ntohl(tmp.subnet_mask & tmp.ip); //Destination
-      new_entry->mask = ntohl(tmp.subnet_mask);
+      new_entry->subnet = tmp.subnet_mask & tmp.ip; //Destination
+      new_entry->mask = tmp.subnet_mask;
       new_entry->next_hop_ip = 0; //NOTE: Not needed for initial, direct connections
       new_entry->outgoing_intf = i;
       new_entry->cost = tmp.cost;
@@ -230,6 +230,7 @@ next_hop_t safe_dr_get_next_hop(uint32_t ip) {
     return hop;
 }
 
+
 void safe_dr_handle_packet(uint32_t ip, unsigned intf,
                            char* buf /* borrowed */, unsigned len) {
     /* handle the dynamic routing payload in the buf buffer */
@@ -237,10 +238,11 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
     rip_entry_t *received = (rip_entry_t *) malloc(sizeof(rip_entry_t));
     rip_header_t *header = (rip_header_t *) malloc(sizeof(rip_header_t));
 
-    memcpy(header, buf, sizeof(rip_header_t));
-    memcpy(received, buf + sizeof(rip_header_t), sizeof(rip_entry_t));
+    /*memcpy(header, buf, sizeof(rip_header_t));
+    memcpy(received, buf + sizeof(rip_header_t), sizeof(rip_entry_t));*/
+    memcpy(received, buf, sizeof(rip_entry_t));
 
-    //if (DEBUG) print_packet(received);
+    if (DEBUG) print_packet(received);
 
     /*Received a connection (u --> v) with a cost c(u,v), where u is the router it came from
     and v is another router or subnet.
@@ -252,39 +254,75 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
         equal u with metric c(Here, u) + c(u,v).
       If YES: Compare c(Here,v) >? c(Here, u) + c(u,v)
           if we have found a better route, update the metric to c(Here, u) + c(u,v) */
-    bool present = false;
+    bool here_u_exists = false;
+    bool here_v_exists = false;
+    uint32_t v = received->ip;
+    uint32_t u_interface_index = -1;
     route_t *current = head_rt;
+    route_t *here_u;
+    route_t *here_v;
     while(current != NULL){
       uint32_t end = current->subnet;
       if(end == ip){ //Is the endpoint of the entry the same as the IP that we are receiving this message from?
-        present = true;
+        here_u_exists = true;
         current->last_updated = get_struct_timeval(); //Reset the timestamp
-        fprintf(stderr, "%s\n", "Found entry!");
+        here_u = current;
+        //fprintf(stderr, "%s\n", "Found Here -> u");
+        /*Search the correct interface index*/
+        for(uint32_t i=0;i<dr_interface_count();i++){
+          lvns_interface_t tmp = dr_get_interface(i);
+          if( (tmp.ip & tmp.subnet_mask)  == (here_u->subnet & tmp.subnet_mask) && tmp.enabled){
+            u_interface_index = i;
+          }
+        }
+      }
+      if(end == v){
+        here_v_exists = true;
+        current->last_updated = get_struct_timeval();
+        here_v = current;
+        //fprintf(stderr, "%s\n", "Found Here -> v");
       }
       current = current->next;
     }
-    if(!present){ //This connection doesn't exist, add
-      route_t *new_entry = (route_t *) malloc(sizeof(route_t));
-      new_entry->subnet = ip;
-      new_entry->next_hop_ip = 0; //This is a direct connection
-      print_ip(ip);
+    if(!here_u_exists){ //This connection doesn't exist, add
+      here_u = (route_t *) malloc(sizeof(route_t));
+      here_u->subnet = ip;
+      here_u->next_hop_ip = 0; //This is a direct connection
       for(uint32_t i=0;i<dr_interface_count();i++){
         lvns_interface_t tmp = dr_get_interface(i);
         if(((tmp.ip & tmp.subnet_mask) == ntohl(received->ip)) && tmp.enabled){ //We received drX --> drHere
+          u_interface_index = i;
           //we have found the correct interface
-          new_entry->outgoing_intf = i;
-          new_entry->cost = tmp.cost;
-          new_entry->mask = tmp.subnet_mask;
-          new_entry->last_updated = get_struct_timeval();
+          here_u->outgoing_intf = i;
+          here_u->cost = tmp.cost;
+          here_u->mask = tmp.subnet_mask;
+          here_u->last_updated = get_struct_timeval();
           //Append to the list
-          append(head_rt, new_entry);
+          append(head_rt, here_u);
           if (DEBUG) fprintf(stderr, "%s\n", "Added a new entry to the RT.");
           print_routing_table(head_rt);
+          here_u_exists = true;
           break;
         }
       }
-
     }
+    if(!here_v_exists){ //TODO: Prevent from adding here -> v , where v is Here!
+      here_v = (route_t *) malloc(sizeof(route_t));
+      here_v->subnet = received->ip; //received = u -> v
+      here_v->mask = received->subnet_mask;
+      here_v->next_hop_ip = ip; //Hop to u first
+      here_v->outgoing_intf = u_interface_index; //Intf index to send out packets to u
+      here_v->cost = here_u->cost + received->metric;
+      here_v->last_updated = get_struct_timeval();
+      here_v->is_garbage = 0;
+      here_v->next = NULL;
+      append(head_rt, here_v);
+      here_v_exists = true;
+      fprintf(stderr, "%s\n", "Added here -> v");
+      print_routing_table(head_rt);
+    }
+
+    free(header);
     free(received);
 }
 
@@ -351,9 +389,12 @@ void advertise_routing_table(){
       header->pad = 0;
       //DEBUG: I don't initialize entries[0] here, since it is an empty array, why?
 
-      char buf[sizeof(*header) + sizeof(*packet)];
+      char buf[sizeof(*packet)];
+      memcpy(buf, packet, sizeof(*packet));
+
+      /*char buf[sizeof(*header) + sizeof(*packet)];
       memcpy(buf, header, sizeof(*header));
-      memcpy(buf + sizeof(*header), packet, sizeof(*packet));
+      memcpy(buf + sizeof(*header), packet, sizeof(*packet));*/
 
       dr_send_payload(RIP_IP, RIP_IP, current->outgoing_intf,buf,sizeof(buf));
 
