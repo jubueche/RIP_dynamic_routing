@@ -255,6 +255,7 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
           if we have found a better route, update the metric to c(Here, u) + c(u,v) */
     bool here_u_exists = false;
     bool here_v_exists = false;
+    bool v_same_as_here = false;
     uint32_t v = received->ip;
     uint32_t u_interface_index = -1;
     route_t *current = head_rt;
@@ -272,6 +273,9 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
           lvns_interface_t tmp = dr_get_interface(i);
           if( (tmp.ip & tmp.subnet_mask)  == (here_u->subnet & tmp.subnet_mask) && tmp.enabled){
             u_interface_index = i;
+          }
+          if(v == tmp.ip){
+            v_same_as_here = true;
           }
         }
       }
@@ -305,7 +309,7 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
         }
       }
     }
-    if(!here_v_exists){ //TODO: Prevent from adding here -> v , where v is Here!
+    if(!here_v_exists && !v_same_as_here){ //TODO: Prevent from adding here -> v , where v is Here!
       here_v = (route_t *) malloc(sizeof(route_t));
       here_v->subnet = received->ip; //received = u -> v
       here_v->mask = received->subnet_mask;
@@ -319,7 +323,7 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
       here_v_exists = true;
       fprintf(stderr, "%s\n", "Added here -> v");
       print_routing_table(head_rt);
-    } else{ /*Bellman Ford update*/
+    } else if(!v_same_as_here){ /*Bellman Ford update*/
       if(here_v->cost > here_u->cost + received->metric){
         fprintf(stderr, "%s\n", "Updated Here -> ");
         print_ip(here_v->subnet);
