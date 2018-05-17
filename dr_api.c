@@ -396,7 +396,7 @@ void advertise_routing_table(){
       memcpy(buf, header, sizeof(*header));
       memcpy(buf + sizeof(*header), packet, sizeof(*packet));*/
 
-      dr_send_payload(RIP_IP, RIP_IP, current->outgoing_intf,buf,sizeof(buf));
+      dr_send_payload(RIP_IP, RIP_IP, i,buf,sizeof(buf));
 
       //if(DEBUG) fprintf(stderr, "%s\n", "Send package: ");
       //if(DEBUG) print_packet(packet);
