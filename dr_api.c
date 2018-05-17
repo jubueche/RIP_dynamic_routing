@@ -289,7 +289,7 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
       here_u->next_hop_ip = 0; //This is a direct connection
       for(uint32_t i=0;i<dr_interface_count();i++){
         lvns_interface_t tmp = dr_get_interface(i);
-        if(((tmp.ip & tmp.subnet_mask) == ntohl(received->ip)) && tmp.enabled){ //We received drX --> drHere
+        if(((tmp.ip & tmp.subnet_mask) == received->ip) && tmp.enabled){ //We received drX --> drHere
           u_interface_index = i;
           //we have found the correct interface
           here_u->outgoing_intf = i;
