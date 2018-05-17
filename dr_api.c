@@ -305,6 +305,8 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
           here_u->cost = tmp.cost;
           here_u->mask = tmp.subnet_mask;
           here_u->last_updated = get_struct_timeval();
+          here_u->is_garbage = 0;
+          here_u->next = NULL;
           //Append to the list
           append(head_rt, here_u);
           broadcast_single_entry(here_u);
@@ -383,8 +385,8 @@ void broadcast_single_entry(route_t *to_broadcast){
     packet->ip = to_broadcast->subnet;
     packet->subnet_mask = to_broadcast->mask;
     packet->next_hop = to_broadcast->next_hop_ip;
-    if(to_broadcast->is_garbage){
-      packet->metric = to_broadcast->cost; //TODO: Actually send INFINITY
+    if(to_broadcast->is_garbage == 1){
+      packet->metric = INFINITY;
     } else{
       packet->metric = to_broadcast->cost;
     }
@@ -412,8 +414,8 @@ void advertise_routing_table(){
       packet->ip = current->subnet;
       packet->subnet_mask = current->mask;
       packet->next_hop = current->next_hop_ip;
-      if(current->is_garbage){
-        packet->metric = current->cost; //TODO: Actually send INFINITY
+      if(current->is_garbage == 1){
+        packet->metric = INFINITY;
       } else{
         packet->metric = current->cost;
       }
