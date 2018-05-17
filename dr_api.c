@@ -103,6 +103,7 @@ uint32_t count_route_table_entries();
 void print_packet(rip_entry_t *packet);
 static next_hop_t safe_dr_get_next_hop(uint32_t ip);
 void advertise_routing_table();
+void broadcast_single_entry(route_t *);
 static void safe_dr_handle_packet(uint32_t ip, unsigned intf,
                                   char* buf /* borrowed */, unsigned len);
 static void safe_dr_handle_periodic();
@@ -260,6 +261,14 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
     route_t *current = head_rt;
     route_t *here_u;
     route_t *here_v;
+    /*Check if v == here*/
+    for(uint32_t i=0;i<dr_interface_count();i++){
+      lvns_interface_t tmp = dr_get_interface(i);
+      if(v == tmp.ip){
+        v_same_as_here = true;
+      }
+    }
+
     while(current != NULL){
       uint32_t end = current->subnet;
       if(end == ip){ //Is the endpoint of the entry the same as the IP that we are receiving this message from?
@@ -273,9 +282,6 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
           if( (tmp.ip & tmp.subnet_mask)  == (here_u->subnet & tmp.subnet_mask) && tmp.enabled){
             u_interface_index = i;
           }
-          if(v == tmp.ip){
-            v_same_as_here = true;
-          }
         }
       }
       if(end == v){
@@ -286,13 +292,13 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
       }
       current = current->next;
     }
-    if(!here_u_exists){ //This connection doesn't exist, add
+    if(!here_u_exists && !v_same_as_here){ //This connection doesn't exist, add
       here_u = (route_t *) malloc(sizeof(route_t));
       here_u->subnet = ip;
       here_u->next_hop_ip = 0; //This is a direct connection
       for(uint32_t i=0;i<dr_interface_count();i++){
         lvns_interface_t tmp = dr_get_interface(i);
-        if(((tmp.ip & tmp.subnet_mask) == received->ip) && tmp.enabled){ //We received drX --> drHere
+        if(((tmp.ip & tmp.subnet_mask) == (ip & tmp.subnet_mask)) && tmp.enabled){ //We received drX --> drHere
           u_interface_index = i;
           //we have found the correct interface
           here_u->outgoing_intf = i;
@@ -301,6 +307,7 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
           here_u->last_updated = get_struct_timeval();
           //Append to the list
           append(head_rt, here_u);
+          broadcast_single_entry(here_u);
           if (DEBUG) fprintf(stderr, "%s\n", "Added a new entry to the RT.");
           print_routing_table(head_rt);
           here_u_exists = true;
@@ -308,7 +315,7 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
         }
       }
     }
-    if(!here_v_exists && !v_same_as_here){ //TODO: Prevent from adding here -> v , where v is Here!
+    if(!here_v_exists && !v_same_as_here){
       here_v = (route_t *) malloc(sizeof(route_t));
       here_v->subnet = received->ip; //received = u -> v
       here_v->mask = received->subnet_mask;
@@ -319,43 +326,22 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
       here_v->is_garbage = 0;
       here_v->next = NULL;
       append(head_rt, here_v);
+      broadcast_single_entry(here_v);
       here_v_exists = true;
       fprintf(stderr, "%s\n", "Added here -> v");
       print_routing_table(head_rt);
     } else if(!v_same_as_here){ /*Bellman Ford update*/
       if(here_v->cost > here_u->cost + received->metric){
-        fprintf(stderr, "%s\n", "Updated Here -> ");
+        fprintf(stderr, "%s", "Bellman Ford update of route here -> ");
         print_ip(here_v->subnet);
+        fprintf(stderr, "%d > %d + %d\n",here_v->cost, here_u->cost, received->metric );
         print_routing_table(head_rt);
         here_v->cost = here_u->cost + received->metric;
         here_v->outgoing_intf = u_interface_index;
         here_v->next_hop_ip = here_u->subnet;
         here_v->mask = here_u->mask;
         /*Triggered update: Send out this packet immediately*/
-        for(uint32_t i=0;i<dr_interface_count();i++){
-          rip_entry_t *packet = (rip_entry_t *) malloc(sizeof(rip_entry_t));
-          rip_header_t *header = (rip_header_t *) malloc(sizeof(rip_header_t));
-          packet->addr_family = IPV4_ADDR_FAM;
-          packet->pad = 0;
-          packet->ip = here_v->subnet;
-          packet->subnet_mask = here_v->mask;
-          packet->next_hop = here_v->next_hop_ip;
-          packet->metric = here_v->cost;
-          header->command = RIP_COMMAND_RESPONSE;
-          header->version = RIP_VERSION;
-          header->pad = 0;
-
-          char buf[sizeof(*header) + sizeof(*packet)];
-          memcpy(buf, header, sizeof(*header));
-          memcpy(buf + sizeof(*header), packet, sizeof(*packet));
-
-          dr_send_payload(RIP_IP, RIP_IP, i,buf,sizeof(buf));
-
-          //if(DEBUG) fprintf(stderr, "%s\n", "Send package: ");
-          //if(DEBUG) print_packet(packet);
-          free(packet);
-          free(header);
-        }
+        broadcast_single_entry(here_v);
       }
     }
     free(header);
@@ -388,23 +374,30 @@ static void safe_dr_interface_changed(unsigned intf,
 }
 
 /* definition of internal functions */
-
-// gives current time in milliseconds
-long get_time(){
-    // Now in milliseconds
-    struct timeval now;
-    gettimeofday(&now, NULL);
-    return now.tv_sec * 1000 + now.tv_usec / 1000;
-}
-
-void append(route_t *head, route_t *new_entry){
-  route_t *current = head;
-
-  while (current->next != NULL) {
-      current = current->next;
+void broadcast_single_entry(route_t *to_broadcast){
+  for(uint32_t i=0;i<dr_interface_count();i++){
+    rip_entry_t *packet = (rip_entry_t *) malloc(sizeof(rip_entry_t));
+    rip_header_t *header = (rip_header_t *) malloc(sizeof(rip_header_t));
+    packet->addr_family = IPV4_ADDR_FAM;
+    packet->pad = 0;
+    packet->ip = to_broadcast->subnet;
+    packet->subnet_mask = to_broadcast->mask;
+    packet->next_hop = to_broadcast->next_hop_ip;
+    if(to_broadcast->is_garbage){
+      packet->metric = to_broadcast->cost; //TODO: Actually send INFINITY
+    } else{
+      packet->metric = to_broadcast->cost;
+    }
+    header->command = RIP_COMMAND_RESPONSE;
+    header->version = RIP_VERSION;
+    header->pad = 0;
+    char buf[sizeof(*header) + sizeof(*packet)];
+    memcpy(buf, header, sizeof(*header));
+    memcpy(buf + sizeof(*header), packet, sizeof(*packet));
+    dr_send_payload(RIP_IP, RIP_IP, i,buf,sizeof(buf));
+    free(packet);
+    free(header);
   }
-  current->next = (route_t *) malloc(sizeof(route_t)); //DEBUG:Add catch of false malloc
-  current->next = new_entry;
 }
 
 void advertise_routing_table(){
@@ -419,7 +412,11 @@ void advertise_routing_table(){
       packet->ip = current->subnet;
       packet->subnet_mask = current->mask;
       packet->next_hop = current->next_hop_ip;
-      packet->metric = current->cost;
+      if(current->is_garbage){
+        packet->metric = current->cost; //TODO: Actually send INFINITY
+      } else{
+        packet->metric = current->cost;
+      }
       header->command = RIP_COMMAND_RESPONSE;
       header->version = RIP_VERSION;
       header->pad = 0;
@@ -439,6 +436,24 @@ void advertise_routing_table(){
       current = current->next;
     }
   }
+}
+
+// gives current time in milliseconds
+long get_time(){
+    // Now in milliseconds
+    struct timeval now;
+    gettimeofday(&now, NULL);
+    return now.tv_sec * 1000 + now.tv_usec / 1000;
+}
+
+void append(route_t *head, route_t *new_entry){
+  route_t *current = head;
+
+  while (current->next != NULL) {
+      current = current->next;
+  }
+  current->next = (route_t *) malloc(sizeof(route_t)); //DEBUG:Add catch of false malloc
+  current->next = new_entry;
 }
 
 void print_packet(rip_entry_t *packet){
