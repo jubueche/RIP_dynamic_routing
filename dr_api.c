@@ -99,6 +99,7 @@ void print_routing_table(route_t *head);
 /* internal lock-safe methods for the students to implement */
 struct timeval get_struct_timeval();
 void append(route_t *head, route_t *new_entry);
+void remove(route_t *to_remove);
 uint32_t count_route_table_entries();
 void print_packet(rip_entry_t *packet);
 static next_hop_t safe_dr_get_next_hop(uint32_t ip);
@@ -241,8 +242,6 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
     memcpy(header, buf, sizeof(rip_header_t));
     memcpy(received, buf + sizeof(rip_header_t), sizeof(rip_entry_t));
 
-    //if (DEBUG) print_packet(received);
-
     /*Received a connection (u --> v) with a cost c(u,v), where u is the router it came from
     and v is another router or subnet.
     First: Check in the RT, if we have an entry where subnet == u. If yes, update the timestamp
@@ -288,7 +287,16 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
         here_v_exists = true;
         current->last_updated = get_struct_timeval();
         here_v = current;
-        //fprintf(stderr, "%s\n", "Found Here -> v");
+        /*Check if the next hop is u (ip), if yes and the route is garbage
+        we need to broadcast that, remove the entry and return*/
+        if(here_v->next_hop_ip == ip && received->metric > 15){
+          fprintf(stderr, "%s\n", "Using a dirty route! Broadcast and remove...");
+          here_v->is_garbage = 1;
+          broadcast_single_entry(here_v);
+          remove(here_v);
+          print_routing_table(head_rt);
+          return;
+        }
       }
       current = current->next;
     }
@@ -337,11 +345,11 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
         fprintf(stderr, "%s", "Bellman Ford update of route here -> ");
         print_ip(here_v->subnet);
         fprintf(stderr, "%d > %d + %d\n",here_v->cost, here_u->cost, received->metric );
-        print_routing_table(head_rt);
         here_v->cost = here_u->cost + received->metric;
         here_v->outgoing_intf = u_interface_index;
         here_v->next_hop_ip = here_u->subnet;
         here_v->mask = here_u->mask;
+        print_routing_table(head_rt);
         /*Triggered update: Send out this packet immediately*/
         broadcast_single_entry(here_v);
       }
@@ -362,7 +370,9 @@ void safe_dr_handle_periodic() {
       long time_entry = current->last_updated.tv_sec * 1000 + current->last_updated.tv_usec / 1000;
       if((current_time - time_entry)/1000.f > RIP_GARBAGE_SEC && current->is_garbage != 1){ //Convert difference to seconds
         current->is_garbage = 1;
-        if(DEBUG) fprintf(stderr, "%s\n", "PT entry -> garbage");
+        fprintf(stderr, "%s", "Garbage IP: ");
+        print_ip(current->subnet);
+        broadcast_single_entry(current);
       }
       current = current->next;
     }
@@ -456,6 +466,23 @@ void append(route_t *head, route_t *new_entry){
   }
   current->next = (route_t *) malloc(sizeof(route_t)); //DEBUG:Add catch of false malloc
   current->next = new_entry;
+}
+
+void remove(route_t *to_remove){
+  route_t *current = head_rt;
+  if(to_remove == head_rt){
+    if(head_rt->next != NULL){
+      head_rt = head_rt->next;
+    } else head_rt = NULL;
+  } else{
+    while(current->next != to_remove){
+      current = current->next;
+    }
+    if(current->next == to_remove){ //Could be NULL
+      current->next = to_remove->next;
+      free(to_remove);
+    }
+  }
 }
 
 void print_packet(rip_entry_t *packet){
