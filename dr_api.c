@@ -1,5 +1,4 @@
-//TODO: Update timestamp to subnets that are directly connected
-
+//TODO: Split horizon implement, state change reaction
 /* Filename: dr_api.c */
 
 /* include files */
@@ -334,12 +333,10 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
         here_v->mask = here_u->mask;
       }
     }
-
     free(header);
     free(received);
 }
 
-//TODO: For all directly connected subnets, check if the interface is enabled and reset the timer
 void safe_dr_handle_periodic() {
     /* handle periodic tasks for dynamic routing here */
     /*Send out the complete routing table to neighbors*/
