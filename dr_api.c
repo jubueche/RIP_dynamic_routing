@@ -1,4 +1,4 @@
-//TODO: Split horizon implement, state change reaction
+//TODO: Split horizon implement, check for equal RT entries
 /* Filename: dr_api.c */
 
 /* include files */
@@ -105,6 +105,7 @@ void print_packet(rip_entry_t *packet);
 static next_hop_t safe_dr_get_next_hop(uint32_t ip);
 void advertise_routing_table();
 void broadcast_single_entry(route_t *);
+void broadcast_intf_down(uint32_t );
 static void safe_dr_handle_packet(uint32_t ip, unsigned intf,
                                   char* buf /* borrowed */, unsigned len);
 static void safe_dr_handle_periodic();
@@ -220,9 +221,9 @@ next_hop_t safe_dr_get_next_hop(uint32_t ip) {
     /* determine the next hop in order to get to ip */
     route_t *current = head_rt;
     while(current != NULL){
-      if((ip & current->mask) == current->subnet){
-        hop.interface = current->outgoing_intf; //DEBUG: HTONL?
-        hop.dst_ip = current->next_hop_ip; //DEBUG: HTONL?
+      if((ip & current->mask) == current->subnet/* && current->cost < 16*/){
+        hop.interface = current->outgoing_intf;
+        hop.dst_ip = current->next_hop_ip;
         return hop; //There is only one entry to a certain IP/subnet
       }
       current = current->next;
@@ -242,6 +243,29 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
     memcpy(header, buf, sizeof(rip_header_t));
     memcpy(received, buf + sizeof(rip_header_t), sizeof(rip_entry_t));
 
+    bool here_u_exists = false;
+    bool here_v_exists = false;
+    bool v_same_as_here = false;
+    uint32_t v = received->ip;
+    int32_t u_interface_index = -1;
+    route_t *current = head_rt;
+    route_t *here_u;
+    route_t *here_v;
+
+    if(received->ip == received->next_hop){ /*The interface received->ip is down*/
+      //fprintf(stderr, "%s ","Interface down with IP: ");
+      //print_ip(received->ip);
+      while(current != NULL){
+        if(current->next_hop_ip == received->ip || current->subnet == received->ip){
+          current->cost = INFINITY;
+          broadcast_single_entry(current);
+          broadcast_intf_down(received->ip);
+          remove(current);
+        }
+        current = current->next;
+      }
+      return;
+    }
     /*Received a connection (u --> v) with a cost c(u,v), where u is the router it came from
     and v is another router or subnet.
     First: Check in the RT, if we have an entry where subnet == u. If yes, update the timestamp
@@ -252,14 +276,6 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
         equal u with metric c(Here, u) + c(u,v).
       If YES: Compare c(Here,v) >? c(Here, u) + c(u,v)
           if we have found a better route, update the metric to c(Here, u) + c(u,v) */
-    bool here_u_exists = false;
-    bool here_v_exists = false;
-    bool v_same_as_here = false;
-    uint32_t v = received->ip;
-    uint32_t u_interface_index = -1;
-    route_t *current = head_rt;
-    route_t *here_u;
-    route_t *here_v;
     /*Check if v == here*/
     for(uint32_t i=0;i<dr_interface_count();i++){
       lvns_interface_t tmp = dr_get_interface(i);
@@ -316,16 +332,18 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
           here_u->is_garbage = 0;
           here_u->next = NULL;
           //Append to the list
-          append(head_rt, here_u);
-          broadcast_single_entry(here_u);
-          if (DEBUG) fprintf(stderr, "%s\n", "Added a new entry to the RT.");
-          print_routing_table(head_rt);
-          here_u_exists = true;
+          if(here_u->cost <= 15){
+            append(head_rt, here_u);
+            broadcast_single_entry(here_u);
+            if (DEBUG) fprintf(stderr, "%s\n", "Added a new entry to the RT.");
+            print_routing_table(head_rt);
+            here_u_exists = true;
+          }
           break;
         }
       }
     }
-    if(!here_v_exists && !v_same_as_here){
+    if(!here_v_exists && !v_same_as_here && u_interface_index != -1){
       here_v = (route_t *) malloc(sizeof(route_t));
       here_v->subnet = received->ip; //received = u -> v
       here_v->mask = received->subnet_mask;
@@ -335,12 +353,14 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
       here_v->last_updated = get_struct_timeval();
       here_v->is_garbage = 0;
       here_v->next = NULL;
-      append(head_rt, here_v);
-      broadcast_single_entry(here_v);
-      here_v_exists = true;
-      fprintf(stderr, "%s\n", "Added here -> v");
-      print_routing_table(head_rt);
-    } else if(!v_same_as_here){ /*Bellman Ford update*/
+      if(here_v->cost <= 15){
+        append(head_rt, here_v);
+        broadcast_single_entry(here_v);
+        here_v_exists = true;
+        fprintf(stderr, "%s\n", "Added here -> v");
+        print_routing_table(head_rt);
+      }
+    } else if(!v_same_as_here && u_interface_index != -1 && here_u_exists){ /*Bellman Ford update*/
       if(here_v->cost > here_u->cost + received->metric){
         fprintf(stderr, "%s", "Bellman Ford update of route here -> ");
         print_ip(here_v->subnet);
@@ -368,11 +388,13 @@ void safe_dr_handle_periodic() {
     while(current != NULL){
       current_time = get_time();
       long time_entry = current->last_updated.tv_sec * 1000 + current->last_updated.tv_usec / 1000;
-      if((current_time - time_entry)/1000.f > RIP_GARBAGE_SEC && current->is_garbage != 1){ //Convert difference to seconds
+      if((current_time - time_entry)/1000.f > RIP_GARBAGE_SEC){ //Convert difference to seconds
         current->is_garbage = 1;
         fprintf(stderr, "%s", "Garbage IP: ");
         print_ip(current->subnet);
         broadcast_single_entry(current);
+        remove(current);
+        print_routing_table(head_rt);
       }
       current = current->next;
     }
@@ -383,69 +405,152 @@ static void safe_dr_interface_changed(unsigned intf,
                                       int state_changed,
                                       int cost_changed) {
     /* handle an interface going down or being brought up */
+
+    /*If state_changed, look at the interface and see if it is enabled
+        EN:  add u -> subnet (n_hop_ip = 0) and broadcast to all neighbors
+        DIS: for all entries in the RT, which use intf, is_garbage = 1, broadcast, remove
+      If cost_changed
+        for all entries in the RT that use this intfc, is_garbage = 1, broadcast, new cost + is_garbage = 0, broadcast direct link to subnet */
+
+    lvns_interface_t tmp = dr_get_interface(intf);
+    route_t *current = head_rt;
+    route_t *new_entry;
+    if(state_changed){
+      bool EN = (tmp.enabled != 0);
+      if(EN){
+        new_entry = (route_t *) malloc(sizeof(route_t));
+        new_entry->subnet = tmp.ip & tmp.subnet_mask;
+        new_entry->mask = tmp.subnet_mask;
+        new_entry->next_hop_ip = 0;
+        new_entry->outgoing_intf = intf;
+        new_entry->cost = tmp.cost;
+        new_entry->last_updated = get_struct_timeval();
+        new_entry->is_garbage = 0;
+        new_entry->next = NULL;
+        append(head_rt, new_entry);
+        broadcast_single_entry(new_entry);
+      } else{
+        broadcast_intf_down(tmp.ip);
+        while(current->next != NULL){
+          if(current->outgoing_intf == intf){
+            current->cost = INFINITY;
+            broadcast_single_entry(current);
+            remove(current);
+          }
+          current = current->next;
+        }
+      }
+    } else if(cost_changed){
+      while (current != NULL) {
+        if(current->outgoing_intf == intf){
+          current->is_garbage = 1;
+          broadcast_single_entry(current);
+          remove(current);
+        }
+        current = current->next;
+      }
+      new_entry = (route_t *) malloc(sizeof(route_t));
+      new_entry->subnet = tmp.ip & tmp.subnet_mask;
+      new_entry->mask = tmp.subnet_mask;
+      new_entry->next_hop_ip = 0;
+      new_entry->outgoing_intf = intf;
+      new_entry->cost = tmp.cost;
+      new_entry->last_updated = get_struct_timeval();
+      new_entry->is_garbage = 0;
+      new_entry->next = NULL;
+      append(head_rt, new_entry);
+      broadcast_single_entry(new_entry);
+    } else {
+      return;
+    }
 }
 
 /* definition of internal functions */
+
+void broadcast_intf_down(uint32_t intf_ip){
+  rip_entry_t *packet = (rip_entry_t *) malloc(sizeof(rip_entry_t));
+  rip_header_t *header = (rip_header_t *) malloc(sizeof(rip_header_t));
+  packet->addr_family = IPV4_ADDR_FAM;
+  packet->pad = 0;
+  packet->ip = intf_ip;
+  packet->next_hop = intf_ip;
+  header->command = RIP_COMMAND_RESPONSE;
+  header->version = RIP_VERSION;
+  header->pad = 0;
+  char buf[sizeof(*header) + sizeof(*packet)];
+  memcpy(buf, header, sizeof(*header));
+  memcpy(buf + sizeof(*header), packet, sizeof(*packet));
+  for(uint32_t i=0;i<dr_interface_count();i++){
+      if(dr_get_interface(i).enabled){
+        dr_send_payload(RIP_IP, RIP_IP, i,buf,sizeof(buf));
+      }
+    }
+  free(packet);
+  free(header);
+}
 void broadcast_single_entry(route_t *to_broadcast){
   for(uint32_t i=0;i<dr_interface_count();i++){
-    rip_entry_t *packet = (rip_entry_t *) malloc(sizeof(rip_entry_t));
-    rip_header_t *header = (rip_header_t *) malloc(sizeof(rip_header_t));
-    packet->addr_family = IPV4_ADDR_FAM;
-    packet->pad = 0;
-    packet->ip = to_broadcast->subnet;
-    packet->subnet_mask = to_broadcast->mask;
-    packet->next_hop = to_broadcast->next_hop_ip;
-    if(to_broadcast->is_garbage == 1){
-      packet->metric = INFINITY;
-    } else{
-      packet->metric = to_broadcast->cost;
+      if(dr_get_interface(i).enabled){
+      rip_entry_t *packet = (rip_entry_t *) malloc(sizeof(rip_entry_t));
+      rip_header_t *header = (rip_header_t *) malloc(sizeof(rip_header_t));
+      packet->addr_family = IPV4_ADDR_FAM;
+      packet->pad = 0;
+      packet->ip = to_broadcast->subnet;
+      packet->subnet_mask = to_broadcast->mask;
+      packet->next_hop = to_broadcast->next_hop_ip;
+      if(to_broadcast->is_garbage == 1){
+        packet->metric = INFINITY;
+      } else{
+        packet->metric = to_broadcast->cost;
+      }
+      header->command = RIP_COMMAND_RESPONSE;
+      header->version = RIP_VERSION;
+      header->pad = 0;
+      char buf[sizeof(*header) + sizeof(*packet)];
+      memcpy(buf, header, sizeof(*header));
+      memcpy(buf + sizeof(*header), packet, sizeof(*packet));
+      dr_send_payload(RIP_IP, RIP_IP, i,buf,sizeof(buf));
+      free(packet);
+      free(header);
     }
-    header->command = RIP_COMMAND_RESPONSE;
-    header->version = RIP_VERSION;
-    header->pad = 0;
-    char buf[sizeof(*header) + sizeof(*packet)];
-    memcpy(buf, header, sizeof(*header));
-    memcpy(buf + sizeof(*header), packet, sizeof(*packet));
-    dr_send_payload(RIP_IP, RIP_IP, i,buf,sizeof(buf));
-    free(packet);
-    free(header);
   }
 }
 
 void advertise_routing_table(){
   route_t *current;
   for(uint32_t i=0;i<dr_interface_count();i++){
-    current = head_rt;
-    while(current != NULL){
-      rip_entry_t *packet = (rip_entry_t *) malloc(sizeof(rip_entry_t));
-      rip_header_t *header = (rip_header_t *) malloc(sizeof(rip_header_t));
-      packet->addr_family = IPV4_ADDR_FAM;
-      packet->pad = 0;
-      packet->ip = current->subnet;
-      packet->subnet_mask = current->mask;
-      packet->next_hop = current->next_hop_ip;
-      if(current->is_garbage == 1){
-        packet->metric = INFINITY;
-      } else{
-        packet->metric = current->cost;
+    if(dr_get_interface(i).enabled){
+      current = head_rt;
+      while(current != NULL){
+        rip_entry_t *packet = (rip_entry_t *) malloc(sizeof(rip_entry_t));
+        rip_header_t *header = (rip_header_t *) malloc(sizeof(rip_header_t));
+        packet->addr_family = IPV4_ADDR_FAM;
+        packet->pad = 0;
+        packet->ip = current->subnet;
+        packet->subnet_mask = current->mask;
+        packet->next_hop = current->next_hop_ip;
+        if(current->is_garbage == 1){
+          packet->metric = INFINITY;
+        } else{
+          packet->metric = current->cost;
+        }
+        header->command = RIP_COMMAND_RESPONSE;
+        header->version = RIP_VERSION;
+        header->pad = 0;
+
+        char buf[sizeof(*header) + sizeof(*packet)];
+        memcpy(buf, header, sizeof(*header));
+        memcpy(buf + sizeof(*header), packet, sizeof(*packet));
+
+        dr_send_payload(RIP_IP, RIP_IP, i,buf,sizeof(buf));
+
+        free(packet);
+        free(header);
+
+        current = current->next;
       }
-      header->command = RIP_COMMAND_RESPONSE;
-      header->version = RIP_VERSION;
-      header->pad = 0;
-      //DEBUG: I don't initialize entries[0] here, since it is an empty array, why?
-
-      char buf[sizeof(*header) + sizeof(*packet)];
-      memcpy(buf, header, sizeof(*header));
-      memcpy(buf + sizeof(*header), packet, sizeof(*packet));
-
-      dr_send_payload(RIP_IP, RIP_IP, i,buf,sizeof(buf));
-
-      //if(DEBUG) fprintf(stderr, "%s\n", "Send package: ");
-      //if(DEBUG) print_packet(packet);
-      free(packet);
-      free(header);
-
-      current = current->next;
+    } else{
+      broadcast_intf_down(dr_get_interface(i).ip);
     }
   }
 }
