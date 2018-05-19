@@ -1,4 +1,4 @@
-//TODO: Split horizon implement, check for equal RT entries
+//TODO: Split horizon implement
 /* Filename: dr_api.c */
 
 /* include files */
@@ -567,7 +567,25 @@ void append(route_t *head, route_t *new_entry){
   route_t *current = head;
 
   while (current->next != NULL) {
-      current = current->next;
+    if(current->subnet == new_entry->subnet){
+      current->mask = new_entry->mask;
+      current->next_hop_ip = new_entry->next_hop_ip;
+      current->outgoing_intf = new_entry->outgoing_intf;
+      current->cost = new_entry->cost;
+      current->last_updated = new_entry->last_updated;
+      current->is_garbage = new_entry->is_garbage;
+      return;
+    }
+    current = current->next;
+  }
+  if(current->subnet == new_entry->subnet){
+    current->mask = new_entry->mask;
+    current->next_hop_ip = new_entry->next_hop_ip;
+    current->outgoing_intf = new_entry->outgoing_intf;
+    current->cost = new_entry->cost;
+    current->last_updated = new_entry->last_updated;
+    current->is_garbage = new_entry->is_garbage;
+    return;
   }
   current->next = (route_t *) malloc(sizeof(route_t)); //DEBUG:Add catch of false malloc
   current->next = new_entry;
