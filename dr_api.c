@@ -38,6 +38,7 @@ typedef struct rip_entry_t {
     uint32_t subnet_mask;
     uint32_t next_hop;
     uint32_t metric;
+    uint32_t learned_from;
 } __attribute__ ((packed)) rip_entry_t;
 
 /** the RIP payload header */
@@ -55,6 +56,7 @@ typedef struct route_t {
     uint32_t next_hop_ip;   /* next hop on on this route */
     uint32_t outgoing_intf; /* interface to use to send packets on this route */
     uint32_t cost;
+    uint32_t learned_from;
     struct timeval last_updated;
 
     int is_garbage; /* boolean which notes whether this entry is garbage */
@@ -200,6 +202,7 @@ void dr_init(unsigned (*func_dr_interface_count)(),
       new_entry->outgoing_intf = i;
       new_entry->cost = tmp.cost;
       new_entry->last_updated = get_struct_timeval();
+      new_entry->learned_from = 0;
       new_entry->is_garbage = 0;
       new_entry->next = NULL;
 
@@ -251,6 +254,16 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
     route_t *current = head_rt;
     route_t *here_u;
     route_t *here_v;
+
+
+    for(uint32_t i=0;i<dr_interface_count();i++){
+      lvns_interface_t tmp = dr_get_interface(i);
+      if(received->learned_from == tmp.ip){
+        fprintf(stderr, "%s\n", "Omit route!"); //This route has been learned from this IP and is now being send here again -> omit (Split horizon w/ poison reverse)
+        received->metric = INFINITY;
+      }
+    }
+
 
     if(received->ip == received->next_hop){ /*The interface received->ip is down*/
       //fprintf(stderr, "%s ","Interface down with IP: ");
@@ -329,6 +342,7 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
           here_u->cost = tmp.cost;
           here_u->mask = tmp.subnet_mask;
           here_u->last_updated = get_struct_timeval();
+          here_u->learned_from = 0;
           here_u->is_garbage = 0;
           here_u->next = NULL;
           //Append to the list
@@ -351,6 +365,7 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
       here_v->outgoing_intf = u_interface_index; //Intf index to send out packets to u
       here_v->cost = here_u->cost + received->metric;
       here_v->last_updated = get_struct_timeval();
+      here_v->learned_from = ip;
       here_v->is_garbage = 0;
       here_v->next = NULL;
       if(here_v->cost <= 15){
@@ -369,6 +384,7 @@ void safe_dr_handle_packet(uint32_t ip, unsigned intf,
         here_v->outgoing_intf = u_interface_index;
         here_v->next_hop_ip = here_u->subnet;
         here_v->mask = here_u->mask;
+        here_v->learned_from = ip;
         print_routing_table(head_rt);
         /*Triggered update: Send out this packet immediately*/
         broadcast_single_entry(here_v);
@@ -388,7 +404,7 @@ void safe_dr_handle_periodic() {
     while(current != NULL){
       current_time = get_time();
       long time_entry = current->last_updated.tv_sec * 1000 + current->last_updated.tv_usec / 1000;
-      if((current_time - time_entry)/1000.f > RIP_GARBAGE_SEC){ //Convert difference to seconds
+      if((current_time - time_entry)/1000.f > RIP_TIMEOUT_SEC){ //Convert difference to seconds
         current->is_garbage = 1;
         fprintf(stderr, "%s", "Garbage IP: ");
         print_ip(current->subnet);
@@ -425,6 +441,7 @@ static void safe_dr_interface_changed(unsigned intf,
         new_entry->outgoing_intf = intf;
         new_entry->cost = tmp.cost;
         new_entry->last_updated = get_struct_timeval();
+        new_entry->learned_from = 0;
         new_entry->is_garbage = 0;
         new_entry->next = NULL;
         append(head_rt, new_entry);
@@ -456,6 +473,7 @@ static void safe_dr_interface_changed(unsigned intf,
       new_entry->outgoing_intf = intf;
       new_entry->cost = tmp.cost;
       new_entry->last_updated = get_struct_timeval();
+      new_entry->learned_from = 0;
       new_entry->is_garbage = 0;
       new_entry->next = NULL;
       append(head_rt, new_entry);
@@ -498,6 +516,7 @@ void broadcast_single_entry(route_t *to_broadcast){
       packet->ip = to_broadcast->subnet;
       packet->subnet_mask = to_broadcast->mask;
       packet->next_hop = to_broadcast->next_hop_ip;
+      packet->learned_from = to_broadcast->learned_from;
       if(to_broadcast->is_garbage == 1){
         packet->metric = INFINITY;
       } else{
@@ -529,6 +548,7 @@ void advertise_routing_table(){
         packet->ip = current->subnet;
         packet->subnet_mask = current->mask;
         packet->next_hop = current->next_hop_ip;
+        packet->learned_from = current->learned_from;
         if(current->is_garbage == 1){
           packet->metric = INFINITY;
         } else{
@@ -573,6 +593,7 @@ void append(route_t *head, route_t *new_entry){
       current->outgoing_intf = new_entry->outgoing_intf;
       current->cost = new_entry->cost;
       current->last_updated = new_entry->last_updated;
+      current->learned_from = new_entry->learned_from;
       current->is_garbage = new_entry->is_garbage;
       return;
     }
@@ -584,6 +605,7 @@ void append(route_t *head, route_t *new_entry){
     current->outgoing_intf = new_entry->outgoing_intf;
     current->cost = new_entry->cost;
     current->last_updated = new_entry->last_updated;
+    current->learned_from = new_entry->learned_from;
     current->is_garbage = new_entry->is_garbage;
     return;
   }

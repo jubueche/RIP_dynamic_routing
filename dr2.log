@@ -49,3 +49,1887 @@ Entry 2:
 0.20.37.140
 0.0.0.0
 connection closed by server
+******** Starting new dr instance ********
+connected to the LVNS server
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 101928 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 101928 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 101960 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 101928 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 101960 
+==============================
+Entry 5:
+	Subnet: 101.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 104482 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 101928 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 101960 
+==============================
+Entry 5:
+	Subnet: 101.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 104482 
+==============================
+Entry 6:
+	Subnet: 0.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 104517 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 101928 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 101960 
+==============================
+Entry 5:
+	Subnet: 101.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 104539 
+==============================
+Entry 6:
+	Subnet: 0.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 104517 
+==============================
+Entry 7:
+	Subnet: 0.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 104540 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 104560 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 104938 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 101960 
+==============================
+Entry 5:
+	Subnet: 101.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 104938 
+==============================
+Entry 6:
+	Subnet: 0.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 104517 
+==============================
+Entry 7:
+	Subnet: 0.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 104540 
+==============================
+Entry 8:
+	Subnet: 6.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 122304 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 104560 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 104938 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 101960 
+==============================
+Entry 5:
+	Subnet: 101.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 104938 
+==============================
+Entry 6:
+	Subnet: 0.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 104517 
+==============================
+Entry 7:
+	Subnet: 0.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 104540 
+==============================
+Entry 8:
+	Subnet: 6.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 122304 
+==============================
+Entry 9:
+	Subnet: 10.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122367 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 122396 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 122406 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122410 
+==============================
+Entry 5:
+	Subnet: 101.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 104938 
+==============================
+Entry 6:
+	Subnet: 0.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122391 
+==============================
+Entry 7:
+	Subnet: 0.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 104540 
+==============================
+Entry 8:
+	Subnet: 6.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 122415 
+==============================
+Entry 9:
+	Subnet: 10.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122367 
+==============================
+Entry 10:
+	Subnet: 25.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122415 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 122396 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 122406 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122410 
+==============================
+Entry 5:
+	Subnet: 101.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 104938 
+==============================
+Entry 6:
+	Subnet: 0.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122391 
+==============================
+Entry 7:
+	Subnet: 0.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 104540 
+==============================
+Entry 8:
+	Subnet: 6.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 122447 
+==============================
+Entry 9:
+	Subnet: 10.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122367 
+==============================
+Entry 10:
+	Subnet: 25.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122415 
+==============================
+Entry 11:
+	Subnet: 5.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 3
+	Last updated (timestamp in microseconds): 122447 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 122396 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 122491 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 122495 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122477 
+==============================
+Entry 5:
+	Subnet: 101.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 122477 
+==============================
+Entry 6:
+	Subnet: 0.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122391 
+==============================
+Entry 7:
+	Subnet: 0.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 104540 
+==============================
+Entry 8:
+	Subnet: 6.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 122472 
+==============================
+Entry 9:
+	Subnet: 10.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122367 
+==============================
+Entry 10:
+	Subnet: 25.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122415 
+==============================
+Entry 11:
+	Subnet: 5.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 3
+	Last updated (timestamp in microseconds): 122482 
+==============================
+Entry 12:
+	Subnet: 0.75.120.160
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122496 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 122396 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 122491 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 122528 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122477 
+==============================
+Entry 5:
+	Subnet: 101.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 122477 
+==============================
+Entry 6:
+	Subnet: 0.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122391 
+==============================
+Entry 7:
+	Subnet: 0.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 104540 
+==============================
+Entry 8:
+	Subnet: 6.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 122472 
+==============================
+Entry 9:
+	Subnet: 10.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122367 
+==============================
+Entry 10:
+	Subnet: 25.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122415 
+==============================
+Entry 11:
+	Subnet: 5.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 3
+	Last updated (timestamp in microseconds): 122482 
+==============================
+Entry 12:
+	Subnet: 0.75.120.160
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122496 
+==============================
+Entry 13:
+	Subnet: 0.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122528 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 122396 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 122491 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 122571 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122562 
+==============================
+Entry 5:
+	Subnet: 101.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 122576 
+==============================
+Entry 6:
+	Subnet: 0.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122391 
+==============================
+Entry 7:
+	Subnet: 0.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 104540 
+==============================
+Entry 8:
+	Subnet: 6.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 122472 
+==============================
+Entry 9:
+	Subnet: 10.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122367 
+==============================
+Entry 10:
+	Subnet: 25.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122415 
+==============================
+Entry 11:
+	Subnet: 5.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 3
+	Last updated (timestamp in microseconds): 122567 
+==============================
+Entry 12:
+	Subnet: 0.75.120.160
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122496 
+==============================
+Entry 13:
+	Subnet: 0.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122528 
+==============================
+Entry 14:
+	Subnet: 6.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122576 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 122396 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 122491 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 122571 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122562 
+==============================
+Entry 5:
+	Subnet: 101.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 122611 
+==============================
+Entry 6:
+	Subnet: 0.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122391 
+==============================
+Entry 7:
+	Subnet: 0.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 104540 
+==============================
+Entry 8:
+	Subnet: 6.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 122472 
+==============================
+Entry 9:
+	Subnet: 10.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122367 
+==============================
+Entry 10:
+	Subnet: 25.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122415 
+==============================
+Entry 11:
+	Subnet: 5.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 3
+	Last updated (timestamp in microseconds): 122567 
+==============================
+Entry 12:
+	Subnet: 0.75.120.160
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122496 
+==============================
+Entry 13:
+	Subnet: 0.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122528 
+==============================
+Entry 14:
+	Subnet: 6.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122576 
+==============================
+Entry 15:
+	Subnet: 11.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122611 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 122396 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 122491 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 122571 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122562 
+==============================
+Entry 5:
+	Subnet: 101.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 122724 
+==============================
+Entry 6:
+	Subnet: 0.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122391 
+==============================
+Entry 7:
+	Subnet: 0.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 104540 
+==============================
+Entry 8:
+	Subnet: 6.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 122472 
+==============================
+Entry 9:
+	Subnet: 10.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122367 
+==============================
+Entry 10:
+	Subnet: 25.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122645 
+==============================
+Entry 11:
+	Subnet: 5.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 3
+	Last updated (timestamp in microseconds): 122567 
+==============================
+Entry 12:
+	Subnet: 0.75.120.160
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122496 
+==============================
+Entry 13:
+	Subnet: 0.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122528 
+==============================
+Entry 14:
+	Subnet: 6.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122576 
+==============================
+Entry 15:
+	Subnet: 11.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122611 
+==============================
+Entry 16:
+	Subnet: 24.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 3
+	Last updated (timestamp in microseconds): 122725 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 122396 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 122491 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 122571 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122562 
+==============================
+Entry 5:
+	Subnet: 101.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 123927 
+==============================
+Entry 6:
+	Subnet: 0.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122391 
+==============================
+Entry 7:
+	Subnet: 0.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 104540 
+==============================
+Entry 8:
+	Subnet: 6.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 123932 
+==============================
+Entry 9:
+	Subnet: 10.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122367 
+==============================
+Entry 10:
+	Subnet: 25.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122645 
+==============================
+Entry 11:
+	Subnet: 5.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 3
+	Last updated (timestamp in microseconds): 122567 
+==============================
+Entry 12:
+	Subnet: 0.75.120.160
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122496 
+==============================
+Entry 13:
+	Subnet: 0.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122528 
+==============================
+Entry 14:
+	Subnet: 6.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122576 
+==============================
+Entry 15:
+	Subnet: 11.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122611 
+==============================
+Entry 16:
+	Subnet: 24.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 3
+	Last updated (timestamp in microseconds): 122725 
+==============================
+Entry 17:
+	Subnet: 71.75.120.160
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 123932 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 122396 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 123989 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 122571 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 123980 
+==============================
+Entry 5:
+	Subnet: 101.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 123927 
+==============================
+Entry 6:
+	Subnet: 0.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122391 
+==============================
+Entry 7:
+	Subnet: 0.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 104540 
+==============================
+Entry 8:
+	Subnet: 6.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 125438 
+==============================
+Entry 9:
+	Subnet: 10.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122367 
+==============================
+Entry 10:
+	Subnet: 25.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122645 
+==============================
+Entry 11:
+	Subnet: 5.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 3
+	Last updated (timestamp in microseconds): 122567 
+==============================
+Entry 12:
+	Subnet: 0.75.120.160
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122496 
+==============================
+Entry 13:
+	Subnet: 0.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 123994 
+==============================
+Entry 14:
+	Subnet: 6.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122576 
+==============================
+Entry 15:
+	Subnet: 11.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122611 
+==============================
+Entry 16:
+	Subnet: 24.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 3
+	Last updated (timestamp in microseconds): 122725 
+==============================
+Entry 17:
+	Subnet: 71.75.120.160
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 123932 
+==============================
+Entry 18:
+	Subnet: 10.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 3
+	Last updated (timestamp in microseconds): 125438 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 125501 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 123989 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 125515 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 123980 
+==============================
+Entry 5:
+	Subnet: 101.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 125505 
+==============================
+Entry 6:
+	Subnet: 0.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 125510 
+==============================
+Entry 7:
+	Subnet: 0.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 125496 
+==============================
+Entry 8:
+	Subnet: 6.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 125491 
+==============================
+Entry 9:
+	Subnet: 10.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122367 
+==============================
+Entry 10:
+	Subnet: 25.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 122645 
+==============================
+Entry 11:
+	Subnet: 5.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 3
+	Last updated (timestamp in microseconds): 122567 
+==============================
+Entry 12:
+	Subnet: 0.75.120.160
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 122496 
+==============================
+Entry 13:
+	Subnet: 0.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 123994 
+==============================
+Entry 14:
+	Subnet: 6.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 125491 
+==============================
+Entry 15:
+	Subnet: 11.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 122611 
+==============================
+Entry 16:
+	Subnet: 24.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 3
+	Last updated (timestamp in microseconds): 122725 
+==============================
+Entry 17:
+	Subnet: 71.75.120.160
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 123932 
+==============================
+Entry 18:
+	Subnet: 10.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 3
+	Last updated (timestamp in microseconds): 125438 
+==============================
+Entry 19:
+	Subnet: 70.75.120.160
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 125515 
+==============================
+==================================================================
+ROUTING TABLE:
+==================================================================
+Entry 0:
+	Subnet: 0.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 125501 
+==============================
+Entry 1:
+	Subnet: 0.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 118090 
+==============================
+Entry 2:
+	Subnet: 0.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 125794 
+==============================
+Entry 3:
+	Subnet: 2.85.16.191
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.2
+	Cost: 1
+	Last updated (timestamp in microseconds): 125589 
+==============================
+Entry 4:
+	Subnet: 11.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 123980 
+==============================
+Entry 5:
+	Subnet: 101.15.28.192
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.0
+	Cost: 1
+	Last updated (timestamp in microseconds): 125794 
+==============================
+Entry 6:
+	Subnet: 0.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 125510 
+==============================
+Entry 7:
+	Subnet: 0.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 176615 
+==============================
+Entry 8:
+	Subnet: 6.5.75.150
+	Mask: 0.255.255.255
+	Next hop ip: 0.0.0.0
+	Outgoing interface: 0.0.0.1
+	Cost: 1
+	Last updated (timestamp in microseconds): 176622 
+==============================
+Entry 9:
+	Subnet: 10.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 125556 
+==============================
+Entry 10:
+	Subnet: 25.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 125566 
+==============================
+Entry 11:
+	Subnet: 5.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 3
+	Last updated (timestamp in microseconds): 122567 
+==============================
+Entry 12:
+	Subnet: 0.75.120.160
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 125779 
+==============================
+Entry 13:
+	Subnet: 0.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 125784 
+==============================
+Entry 14:
+	Subnet: 6.10.30.190
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 125584 
+==============================
+Entry 15:
+	Subnet: 11.16.76.172
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 2
+	Last updated (timestamp in microseconds): 125589 
+==============================
+Entry 16:
+	Subnet: 24.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 101.15.28.192
+	Outgoing interface: 0.0.0.0
+	Cost: 3
+	Last updated (timestamp in microseconds): 125575 
+==============================
+Entry 17:
+	Subnet: 71.75.120.160
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 125789 
+==============================
+Entry 18:
+	Subnet: 10.70.121.165
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 3
+	Last updated (timestamp in microseconds): 125594 
+==============================
+Entry 19:
+	Subnet: 70.75.120.160
+	Mask: 0.255.255.255
+	Next hop ip: 2.85.16.191
+	Outgoing interface: 0.0.0.2
+	Cost: 2
+	Last updated (timestamp in microseconds): 125515 
+==============================
+Entry 20:
+	Subnet: 0.4.24.140
+	Mask: 0.255.255.255
+	Next hop ip: 6.5.75.150
+	Outgoing interface: 0.0.0.1
+	Cost: 2
+	Last updated (timestamp in microseconds): 176622 
+==============================
+connection closed by server
