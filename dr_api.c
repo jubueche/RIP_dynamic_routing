@@ -33,7 +33,7 @@
 /** information about a route which is sent with a RIP packet */
 typedef struct rip_entry_t {
     uint16_t addr_family;
-    uint16_t pad;           /* just put zero in this field */
+    uint16_t pad;
     uint32_t ip;
     uint32_t subnet_mask;
     uint32_t next_hop;
@@ -45,7 +45,7 @@ typedef struct rip_entry_t {
 typedef struct rip_header_t {
     char        command;
     char        version;
-    uint16_t    pad;        /* just put zero in this field */
+    uint16_t    pad;
     rip_entry_t entries[0];
 } __attribute__ ((packed)) rip_header_t;
 
@@ -156,9 +156,6 @@ void dr_interface_changed(unsigned intf, int state_changed, int cost_changed) {
 }
 
 
-/* ****** It is recommended that you only modify code below this line! ****** */
-
-/*Added variables*/
 route_t *head_rt = NULL; //Head of the routing table
 
 void dr_init(unsigned (*func_dr_interface_count)(),
@@ -188,7 +185,6 @@ void dr_init(unsigned (*func_dr_interface_count)(),
         exit(1);
     }
 
-    /* do initialization of your own data structures here */
     head_rt = (route_t *) malloc(sizeof(route_t));
     lvns_interface_t tmp;
 
